@@ -21,15 +21,27 @@ open(INFILE, $ARGV[0]) or die "Cannot open $ARGV[0]: $!.\n";
 
 
 # YOUR VARIABLE DEFINITIONS HERE...
+$titles = 0;
 
 # This loops through each line of the file
 while($line = <INFILE>) {
 
 	# This prints each line. You will not want to keep this line.
-	print $line;
+	# print $line;
 
 	# YOUR CODE BELOW...
+    my ($title) = ($line =~ m/.*<SEP>.*<SEP>.*<SEP>(.*)/);
+    $title =~ s/[([{\\\/_\-:"`+=*].*//;
+    $title =~ s/feat\..*//;
+    $title =~ s/[?¿!¡.;&\$\@%#|]//g;
+    if($title !~ m/[^\w\s']/)
+    {
+        $title = lc $title;
+        $titles++;
+    }
 }
+
+print "$titles\n";
 
 # Close the file handle
 close INFILE; 
