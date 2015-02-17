@@ -19,7 +19,11 @@ if($#ARGV != 0) {
 # Opens the file and assign it to handle INFILE
 open(INFILE, $ARGV[0]) or die "Cannot open $ARGV[0]: $!.\n";
 
-# YOUR VARIABLE DEFINITIONS HERE...  %bigrams = ();
+# Bigram model is a hash where key is a string that is the word and value is a 
+# reference to another hash
+# The reference hash has a key of a string that is the following word and a value of how
+# many times encoutered.
+%bigrams = ();
 
 # This loops through each line of the file
 while($line = <INFILE>)
@@ -37,8 +41,10 @@ while($line = <INFILE>)
         my @title_words = split(' ', $title);
         my $last_word = "";
 
+        # Go through each word and update the bigram structure
         foreach $word (@title_words)
         {
+            # If stop word, skip
             if($word ne "a" and $word ne "an" and $word ne "and" and $word ne "by" and
                $word ne "for" and $word ne "from" and $word ne "in" and $word ne "of" and
                $word ne "on" and $word ne "or" and $word ne "out" and $word ne "the" and
@@ -50,11 +56,13 @@ while($line = <INFILE>)
                 }
                 else
                 {
+                    # If new following word
                     if(!exists($bigrams{$last_word}))
                     {
                         my $inner_bigram = {$word => 1};
                         $bigrams{$last_word} = $inner_bigram;
                     }
+                    # Otherwise increment times seen by 1
                     else
                     {
                         my $inner_bigram = $bigrams{$last_word};
@@ -74,15 +82,6 @@ while($line = <INFILE>)
     }
 }
 
-#print "most common after happy is " . mcw("happy") . "\n";
-#print "most common after sad is " . mcw("sad") . "\n";
-#print "most common after computer is " . mcw("computer") . "\n";
-#my $inner = $bigrams{mcw("computer")};
-#print "and it us used " . $inner->{mcw("computer")} . " times\n";
-#my @keys = keys %$inner;
-#my $size = @keys;
-#print "unique words following computer is " . $size . "\n";
-
 # Close the file handle
 close INFILE; 
 
@@ -98,17 +97,31 @@ chomp($input);
 print "\n";	
 while ($input ne "q")
 {
-	# Replace these lines with some useful code
     my $title = $input;
     my $last_word = $input;
     my $words = 0;
 
+    # Makes sure output doesn't explode
     while($words < 20)
     {
         $last_word = mcw($last_word);
+
+        my @title_words = split(' ', $title);
+
+        # Check to make sure word not repeated
+        # If repeated, finishes title
+        foreach $word (@title_words)
+        {
+            if($last_word eq $word)
+            {
+                $last_word = "";
+                last;
+            }
+        }
+
+        # If no following word, exit
         if($last_word eq "")
         {
-            print $title . "\n";
             last;
         }
         else
@@ -118,10 +131,7 @@ while ($input ne "q")
         }
     }
     
-    if($words == 20)
-    {
-        print $title . "\n";
-    }
+    print $title . "\n";
 
     print "Enter a word [Enter 'q' to quit]: ";
     $input = <STDIN>;
@@ -129,8 +139,8 @@ while ($input ne "q")
     print "\n";	
 }
 
-# MORE OF YOUR CODE HERE....
-
+# Finds the next most popular word
+# Takes one string as input
 sub mcw
 {
     $word = @_[0];
@@ -138,13 +148,16 @@ sub mcw
     $best_word = "";
     $best_word_count = -1;
 
+    # Go through each following word
     while(my ($key, $value) = each(%$inner))
     {
+        # If bigger, replace
         if($value > $best_word_count)
         {
             $best_word = $key;
             $best_word_count = $value;
         }
+        # If same size, coin toss to replace
         if($value == $best_word_count and rand(2) == 0)
         {
             $best_word = $key;

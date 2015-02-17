@@ -1,0 +1,30 @@
+1. birthday
+2. song
+3. 58
+4. love
+5. 55
+6. happy birthday song for the world is a little girl in the world is a little girl in the world is
+7. sad song for the world is a little girl in the world is a little girl in the world is a
+8. hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey
+9. little girl in the world is a little girl in the world is a little girl in the world is a
+10. Songs seem to hit a common word that repeats a phrase continuously after. The phrase is "in the world is a little girl"
+11. amore mio babbino caro gianni schicchi
+12. love you are you are you are you are you are you are you are you are you are you are
+13. little girl like you are you are you are you are you are you are you are you are you are
+14. While we eliminated the stop words, there are still common word loops that can develop
+15. I could not because they all devolved into something, usually "you are", repeated.
+16. My fix was whenever I got the next word, I would check it to every other word that had already been used. If the word
+has already been used, then the program will terminate. Then you will be unable to have repeated phrases and song titles
+should always terminate at some point.
+17. montana sacra nova baby i love you are
+18. bob marley purt drive me down road blues night long way you are
+19. I got the same title every time, but it could be different because if two words have the same number of times being used
+after, then the program will choose between them randomly. I assume I did not have this happen because my regex filtered the 
+words slightly differently, so I did not have the same titles and therefore the same bigrams.
+20. shoot me down road blues night long way you are
+21. The regex functionality is very good
+22. The prefixes to variable, especially references, can be confusing
+23. I did enjoy the lab. The main thing I liked was that is was an actual problem, not completely abstract. The one part I didn't
+like was that there are several regex solutions that work that can cause differences in answers between people
+24. 4 hours
+25. Yes, for text processing work
